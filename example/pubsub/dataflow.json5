@@ -1,0 +1,19 @@
+{
+    "version": "0.1.0",
+    "processors": [
+        "publisher",
+        "subscriber"
+    ],
+    "exchanges": {
+        "LINK": {
+            "type": "zenoh",
+            "key": "LINK",
+        },
+    },
+    "connections": {
+        "LINK": {
+            "<": ["publisher"],
+            ">": ["subscriber"],
+        },
+    },
+}

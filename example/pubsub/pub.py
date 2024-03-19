@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-import dataflow
+import pyeasyflow
 import time
 import struct
 from pathlib import Path
 
 script_dir = Path(__file__).resolve().parent
 
-flow = dataflow.load_dataflow(script_dir / 'dataflow.json5')
-sender = flow.build_sender('video-capture')
+flow = pyeasyflow.load_dataflow(script_dir / 'dataflow.json5')
+sender = flow.build_sender('publisher')
 
 while True:
     tick = int(time.time())
