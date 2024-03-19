@@ -25,8 +25,7 @@ macro_rules! error {
 
 /// A Python module implemented in Rust.
 #[pymodule]
-#[pyo3(name = "easyflow")]
-fn dataflow(_py: Python, m: &PyModule) -> PyResult<()> {
+fn pyeasyflow(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(load_dataflow, m)?)?;
     m.add_class::<Dataflow>()?;
     m.add_class::<Sender>()?;
