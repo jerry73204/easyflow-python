@@ -5,13 +5,15 @@ It is Python binding of
 makes is easy to launch interconnected processes in one
 `dataflow.json5` file.
 
-## Usage
+## Installation
 
 Install this package using pip.
 
 ```bash
 pip install -U git+https://github.com/jerry73204/easyflow-python.git
 ```
+
+## Usage
 
 Here walks through the simple pub/sub example in the
 [directory](example/pubsub).
