@@ -70,3 +70,14 @@ docs/_build/
 
 # Pyenv
 .python-version
+
+# rust
+/Cargo.lock
+/target/
+
+# editor
+*~
+.*~
+*.swp
+*.swo
+\#*#
