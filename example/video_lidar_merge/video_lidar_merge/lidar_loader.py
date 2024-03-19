@@ -1,4 +1,4 @@
-import easyflow
+import pyeasyflow
 import time
 import struct
 from pathlib import Path
@@ -7,7 +7,7 @@ from pathlib import Path
 def lidar_loader_func():
     script_dir = Path(__file__).resolve().parent
 
-    flow = easyflow.load_dataflow(script_dir / ".." / "dataflow.json5")
+    flow = pyeasyflow.load_dataflow(script_dir / ".." / "dataflow.json5")
     sender = flow.build_sender("lidar_loader")
 
     while True:

@@ -1,4 +1,4 @@
-import easyflow
+import pyeasyflow
 import time
 import struct
 from pathlib import Path
@@ -6,7 +6,7 @@ from pathlib import Path
 
 def merger_func():
     script_dir = Path(__file__).resolve().parent
-    flow = easyflow.load_dataflow(script_dir / ".." / "dataflow.json5")
+    flow = pyeasyflow.load_dataflow(script_dir / ".." / "dataflow.json5")
     sender = flow.build_sender_to("merger", "OUTPUT")
 
     video_packet = None
@@ -18,8 +18,7 @@ def merger_func():
 
         if video_packet is not None and lidar_packet is not None:
             merge_packet = struct.pack("<LL", video_packet, lidar_packet)
-            ## TODO: This line panics
-            # sender.send(merge_packet)
+            sender.send(merge_packet)
             print("sent a merged packet")
 
             video_packet = None

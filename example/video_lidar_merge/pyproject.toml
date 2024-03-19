@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.8"
-easyflow = {path = "../easyflow-python"}
+pyeasyflow = {path = "../../"}
 
 [tool.poetry.scripts]
 lidar_loader = "video_lidar_merge:lidar_loader_func"
