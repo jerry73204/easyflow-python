@@ -1,9 +1,4 @@
-use futures::{
-    executor::{block_on, ThreadPool},
-    future::RemoteHandle,
-    prelude::*,
-    task::SpawnExt,
-};
+use futures::prelude::*;
 use once_cell::sync::Lazy;
 use pyo3::{exceptions::PyValueError, prelude::*, types::PyBytes};
 use std::{
@@ -13,9 +8,9 @@ use std::{
         Arc,
     },
 };
-use tokio::sync::Semaphore;
+use tokio::{runtime::Runtime, sync::Semaphore, task::JoinHandle};
 
-static POOL: Lazy<ThreadPool> = Lazy::new(|| ThreadPool::new().unwrap());
+static POOL: Lazy<Runtime> = Lazy::new(|| Runtime::new().unwrap());
 
 macro_rules! error {
     ($fmt:tt $($tt:tt)*) => {
@@ -110,7 +105,7 @@ impl Sender {
 
 #[pyclass]
 pub struct Listener {
-    handle: Option<RemoteHandle<PyResult<()>>>,
+    handle: Option<JoinHandle<PyResult<()>>>,
     semaphore: Arc<Semaphore>,
     closed: Arc<AtomicBool>,
 }
@@ -129,7 +124,7 @@ impl Listener {
         let Some(handle) = self.handle.take() else {
             return Ok(());
         };
-        block_on(handle)
+        block_on(handle).unwrap()
     }
 }
 
@@ -186,11 +181,18 @@ fn build_listener(
             result
         }
     };
-    let handle = POOL.spawn_with_handle(task).unwrap();
+    let handle = POOL.spawn(task);
 
     Ok(Listener {
         handle: Some(handle),
         semaphore,
         closed,
     })
+}
+
+fn block_on<F>(f: F) -> F::Output
+where
+    F: Future,
+{
+    tokio::task::block_in_place(|| POOL.block_on(f))
 }
