@@ -1,0 +1,3 @@
+[submodule "easyflow-rust"]
+	path = easyflow-rust
+	url = https://github.com/jerry73204/easyflow.git
